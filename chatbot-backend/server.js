@@ -5,6 +5,8 @@ const Groq = require("groq-sdk");
 
 dotenv.config();
 
+const path = require("path");
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -12,6 +14,10 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 app.use(cors());
 app.use(express.json());
+
+const _dirname = path.dirname("");
+const buildPath = path.join(_dirname, "../portfolio/dist");
+app.use(express.static(buildPath));
 
 // Resume data as context
 const resumeContext = `
