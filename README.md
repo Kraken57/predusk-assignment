@@ -4,13 +4,8 @@
 
 👉 **[Deployed Website](https://kraken57.site/)**
 
-![WebsiteScreenshot](/imgs/websitess.png)
-
 ## Demo Video
-<video width="100%" controls>
-  <source src="./imgs/portfolio_demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Watch the Video](./imgs/websitess.png)](https://www.youtube.com/watch?v=RC1zSKck5lk)
 
 ---
 
