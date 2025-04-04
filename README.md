@@ -4,9 +4,10 @@
 
 👉 **[Deployed Website](https://kraken57.site/)**
 
-📺 **Demo Video** _(Attach the link to your recorded video here)_
-
 ![WebsiteScreenshot](/imgs/websitess.png)
+
+## Demo Video
+
 
 ---
 
