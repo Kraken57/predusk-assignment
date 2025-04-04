@@ -7,7 +7,7 @@
 ![WebsiteScreenshot](/imgs/websitess.png)
 
 ## Demo Video
-
+[Demo Video](https://github.com/Kraken57/predusk-portfolio/blob/main/imgs/portfolio_demo.mp4)
 
 ---
 
