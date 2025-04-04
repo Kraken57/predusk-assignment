@@ -6,7 +6,7 @@
 
 ## Demo Video
 [![Watch the Video](./imgs/websitess.png)](https://www.youtube.com/watch?v=RC1zSKck5lk)
-
+🔗 [Click here to watch the video](https://www.youtube.com/watch?v=RC1zSKck5lk)
 ---
 
 ## **📌 Project Overview**
