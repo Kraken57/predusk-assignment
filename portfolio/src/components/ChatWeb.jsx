@@ -13,7 +13,7 @@ const Chatbot = () => {
         setMessages([...messages, userMessage]);
 
         try {
-            const response = await axios.post("http://localhost:5000/chat", { message: input });
+            const response = await axios.post("/chat", { message: input });
             const botMessage = { sender: "bot", text: response.data.reply };
             setMessages([...messages, botMessage]);
         } catch (error) {
