@@ -7,7 +7,10 @@
 ![WebsiteScreenshot](/imgs/websitess.png)
 
 ## Demo Video
-[Demo Video](https://github.com/Kraken57/predusk-portfolio/blob/main/imgs/portfolio_demo.mp4)
+<video width="100%" controls>
+  <source src="./imgs/portfolio_demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ---
 
