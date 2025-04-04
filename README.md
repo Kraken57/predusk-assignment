@@ -4,30 +4,32 @@
 
 👉 **[Deployed Website](https://kraken57.site/)**
 
-![WebsiteScreenshot](/imgs/websitess.png)
-
 ## Demo Video
-<video width="100%" controls>
-  <source src="./imgs/portfolio_demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[![Watch the Video](./imgs/websitess.png)](https://www.youtube.com/watch?v=RC1zSKck5lk)
+🔗 [Click here to watch the video](https://www.youtube.com/watch?v=RC1zSKck5lk)
+---
+
+## 📌 Project Overview
+
+This project is a modern, interactive 3D portfolio website that showcases my work using advanced web technologies. Built with React, Vite, Three.js, and React Three Fiber, it features an AI-powered chatbot using Groq Cloud API for intelligent conversations. The site is deployed on AWS EC2 with a secure HTTPS setup via Let's Encrypt and Nginx.
+
+### 🔹 **Key Features:**
+
+- **3D Interactive Elements 🎨** - Leveraging Three.js and React Three Fiber for dynamic animations.
+
+- **AI Chatbot Integration 🤖** - Powered by Groq Cloud API, enabling intelligent responses.
+
+- **Seamless Email Contact 📩** - Integrated with EmailJS for easy inquiries.
+
+- **Fully Responsive & Optimized 📱** - Ensuring a smooth experience on all devices.
+
+- **Secure & Scalable Deployment ☁️** - Hosted on AWS EC2 with Nginx reverse proxy and Let's Encrypt SSL for secure communication.
+
+This portfolio is designed to provide an engaging experience while demonstrating cutting-edge web technologies.
 
 ---
 
-## **📌 Project Overview**
-
-This is a **3D Portfolio Website** built with **React, Vite, Three.js, and React Three Fiber**. It features:
-
-- **Interactive 3D models** 🎮
-- **AI-powered chatbot** 🤖 using **Groq Cloud API**
-- **Email functionality** 📩 with **EmailJS**
-- **Fully responsive and modern UI** ✨
-
-The **backend** is built using **Node.js & Express.js** and deployed on **AWS EC2**.
-
----
-
-## **🛠️ Tech Stack Used**
+### **🛠️ Tech Stack Used**
 
 ### **Frontend:**
 
@@ -47,14 +49,13 @@ The **backend** is built using **Node.js & Express.js** and deployed on **AWS EC
 ### **Deployment & Hosting:**
 
 ![AWS EC2](https://img.shields.io/badge/AWS_EC2-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![AWS Amplify](https://img.shields.io/badge/AWS_Amplify-FF9900?style=for-the-badge&logo=aws-amplify&logoColor=white)
 ![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
 
 ---
 
-## **⚙️ Local Setup**
+### **⚙️ Local Setup**
 
-### **1️⃣ Clone the Repository**
+#### **1️⃣ Clone the Repository**
 
 ```sh
  git clone https://github.com/Kraken57/predusk-portfolio.git
@@ -103,38 +104,9 @@ Your chatbot API should now be running on `http://localhost:5000`.
 
 ---
 
-## **🚀 Deployment on AWS**
+### **🚀 Deployment on AWS EC2**
 
-### **1️⃣ Deploy Frontend on AWS Amplify**
-
-1. Go to **[AWS Amplify Console](https://aws.amazon.com/amplify/)**.
-2. Click **"New App"** → **"Host Web App"**.
-3. Connect your **GitHub Repository**.
-4. Configure **Build Settings**:
-
-```yaml
-version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm install
-    build:
-      commands:
-        - npm run build
-  artifacts:
-    baseDirectory: dist
-    files:
-      - "**/*"
-  cache:
-    paths:
-      - node_modules/**/*
-```
-
-5. Set **Environment Variables** for EmailJS.
-6. Click **Deploy** and wait for AWS to build & host your frontend.
-
-### **2️⃣ Deploy Backend on AWS EC2**
+#### **1️⃣ Deploy Backend on AWS EC2**
 
 #### **Launch EC2 Instance**
 
@@ -143,7 +115,8 @@ frontend:
 3. Select **t2.micro** (Free Tier Eligible).
 4. Configure Security Groups:
    - Allow **Port 22 (SSH)**
-   - Allow **Port 5000 (Backend API)**
+   - Allow **Port 443 (HTTPS)**
+   - Allow **Port 80 (HTTP)**
 5. Click **Launch** and download the `.pem` key.
 
 #### **Connect to EC2 & Setup Backend**
@@ -154,7 +127,7 @@ ssh -i your-key.pem ubuntu@your-ec2-ip
 
 ```sh
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y nodejs npm git
+sudo apt install -y nodejs npm git nginx certbot python3-certbot-nginx
 ```
 
 #### **Clone & Run the Backend**
@@ -174,12 +147,47 @@ pm2 start server.js --name chatbot-backend
 pm2 save
 ```
 
-### **3️⃣ Connect Frontend & Backend**
+#### **2️⃣ Setup Nginx Reverse Proxy & SSL**
+
+```sh
+sudo nano /etc/nginx/sites-available/default
+```
+
+Update Nginx config:
+
+```nginx
+server {
+    listen 80;
+    server_name kraken57.site;
+    location / {
+        proxy_pass http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+Save and restart Nginx:
+
+```sh
+sudo systemctl restart nginx
+```
+
+Secure with SSL:
+
+```sh
+sudo certbot --nginx -d kraken57.site
+```
+
+#### **3️⃣ Connect Frontend & Backend**
 
 Update API URL in **`frontend/src/config.js`**:
 
 ```js
-export const API_URL = "http://your-ec2-public-ip:5000";
+const response = await axios.post("/chat", { message: input });
 ```
 
 Push the changes:
@@ -190,13 +198,22 @@ git commit -m "Updated API URL"
 git push origin main
 ```
 
+On EC2, pull the changes:
+
+```sh
+cd chatbot-backend
+git pull origin main
+pm install
+pm2 restart chatbot-backend
+```
+
 ---
 
 ## **📂 Project Structure**
 
 ```
 /threejs-portfolio
-   ├── portfolio (Vite + React + Three.js)
+   ├── frontend (Vite + React + Three.js)
    ├── chatbot-backend (Node.js + Express + Groq API)
 ```
 
@@ -204,11 +221,11 @@ git push origin main
 
 ### **🎯 Features**
 
-✅ 3D Portfolio with interactive models 🎨
-✅ AI-powered chatbot 🤖
-✅ Email functionality 📩
-✅ Fully Responsive UI 📱
-✅ AWS EC2 + Amplify Deployment ☁️
+✅ 3D Portfolio with interactive models 🎨  
+✅ AI-powered chatbot 🤖  
+✅ Email functionality 📩  
+✅ Fully Responsive UI 📱  
+✅ AWS EC2 + Nginx Deployment ☁️  
 
 ---
 
@@ -225,4 +242,3 @@ git push origin main
 **IIT Roorkee**  
 📧 **Email:** ahmad_s@ee.iitr.ac.in
 
----
